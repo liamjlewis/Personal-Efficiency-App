@@ -12,14 +12,14 @@ const DayScreen = () => (
 			</div>
 		</div>
 		<div className="row">
-  		<div className="six columns">
+  		<div className="col-md-6">
 	  		<VisibleTodoList listType="To do" />
 	  	</div>
-  		<div className="six columns">
-	  		<div className="twelve columns laterbase">
-		  		<VisibleTodoList listType="LaterBase" />
+  		<div className="col-md-6">
+	  		<div className="col-md-12 laterbase no-pad">
+		  		<VisibleTodoList listType="DataBase" />
 		  	</div>
-		  	<div className="twelve columns">
+		  	<div className="col-md-12 no-pad">
 	  			<VisibleTodoList listType="Post" />
 	  		</div>
 	  	</div>
