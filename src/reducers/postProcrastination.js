@@ -3,7 +3,7 @@ import undoable, { includeAction } from 'redux-undo'
 var startingState = [
   {completed: false,
     id: 1515766203684,
-    text: 'Jeremy Kyle'},
+    text: 'Jeremy KyleXXXX'},
   {completed: false,
     id: 1515766203784,
     text: 'Cash in the attic'},

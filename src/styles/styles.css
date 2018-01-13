@@ -46,14 +46,19 @@ li{
   margin-bottom: .75rem;
 }
 
+/* Layout */
+.container{
+  width: 90%;
+}
+.column, .columns{
+  margin-bottom: 1.5rem;
+}
+.no-pad{padding: 0;}
+
 /* MISC */
 .laterbase{
   background: #ebf6ff;
 }
-.container{
-  width: 90%;
-}
-.no-pad{padding: 0;}
 
 @media (min-width:576px){
   .container{
