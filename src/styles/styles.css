@@ -62,6 +62,7 @@ li{
 /* MISC */
 .bulletlist{
   padding: 1.25rem;
+  border-radius: 0.25rem;
 }
 .laterbase{
   /*background: #ebf6ff;*/
@@ -73,6 +74,10 @@ li{
 .sin-bin{
   border: 1px solid #bf7b7b;
   border-radius: 0.25rem;
+}
+.advice{
+  background: aliceblue;
+  padding: 1.25rem;
 }
 
 @-webkit-keyframes colorchange {

@@ -47,7 +47,7 @@ class DayScreen extends Component {
             />
           </div>
           <div className="six columns bulletlist">
-            <p>Be sure to enter your sins whenever they happen so that proper stats about your productivity can be compiled.</p>
+            <p className="advice">Be sure to enter your sins whenever they happen so that proper stats about your productivity can be compiled.</p>
           </div>
         </div>
         <div className="row">
