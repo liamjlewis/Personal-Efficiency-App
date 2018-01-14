@@ -6,8 +6,8 @@ import UndoRedo from '../containers/UndoRedo'
 import Footer from '../components/Footer'
 
 class DayScreen extends Component {
+  
   render(){
-
     const { todos, theLaterbase, postProcrastination, onTodoClick } = this.props;
 
     return (
@@ -16,10 +16,11 @@ class DayScreen extends Component {
           <div className="twelve columns">
             <h1>DataBase</h1>
             <p>When you're about to start any task that's not on <strong>Essentials</strong>, enter that task in <strong>LaterBase</strong>.</p>
+            <p>Hit <strong>'I have sinned'</strong> if you got distracted.</p>
           </div>
         </div>
         <div className="row">
-          <div className="six columns">
+          <div className="six columns bulletlist">
             <BulletList 
               theTitle="Todo Today" 
               onTodoClick={onTodoClick} 
@@ -27,27 +28,38 @@ class DayScreen extends Component {
               actionRef="ADD_TODO" 
             />
           </div>
-          <div className="six columns">
-            <div className="twelve columns">
+          <div className="six columns columns bulletlist laterbase">
               <BulletList 
-                theTitle="The LaterBase" 
+                theTitle="The LaterBase o" 
                 onTodoClick={onTodoClick} 
                 todos={theLaterbase} 
                 actionRef="ADD_TODO_THE_LATERBASE" 
               />
-            </div>
-            <div className="twelve columns">
-              <BulletList 
-                theTitle="After Procrastination" 
-                onTodoClick={onTodoClick} 
-                todos={postProcrastination} 
-                actionRef="ADD_TODO_POST_PROCRASTINATION" 
-              />
-            </div>
-          </div>  
+          </div>
         </div>
-        <Footer />
-        <UndoRedo />
+        <div className="row sin-bin">
+          <div className="six columns bulletlist">
+            <BulletList 
+              theTitle="Sin Bin" 
+              onTodoClick={onTodoClick} 
+              todos={postProcrastination} 
+              actionRef="ADD_TODO_POST_PROCRASTINATION" 
+            />
+          </div>
+          <div className="six columns bulletlist">
+            <p>Be sure to enter your sins whenever they happen so that proper stats about your productivity can be compiled.</p>
+          </div>
+        </div>
+        <div className="row">
+          <div className="twelve columns">
+            <Footer />
+          </div>
+        </div>
+        <div className="row">
+          <div className="twelve columns">
+            <UndoRedo />
+          </div>
+        </div>
       </div>
     )
   }

@@ -50,14 +50,36 @@ li{
 .container{
   width: 90%;
 }
+.row{
+  display: inline-block;
+  width: 100%;
+}
 .column, .columns{
   margin-bottom: 1.5rem;
 }
 .no-pad{padding: 0;}
 
 /* MISC */
+.bulletlist{
+  padding: 1.25rem;
+}
 .laterbase{
-  background: #ebf6ff;
+  /*background: #ebf6ff;*/
+  background-image: url(/assets/img/flowers.png);
+}
+.laterbase h2{
+  -webkit-animation:colorchange 2s infinite normal;
+}
+.sin-bin{
+  border: 1px solid #bf7b7b;
+  border-radius: 0.25rem;
+}
+
+@-webkit-keyframes colorchange {
+  0% {color: #171717;}
+  /*50% {color: #b19c48;} GOLD */
+  50% {color: #5c9250;} /* GREEN */
+  100% {color: #171717;}
 }
 
 @media (min-width:576px){
