@@ -1,22 +1,3 @@
-import undoable, { includeAction } from 'redux-undo'
-
-var startingState = [
-  {completed: false,
-    id: 1515766203684,
-    text: 'Jeremy KyleXXXX'},
-  {completed: false,
-    id: 1515766203784,
-    text: 'Cash in the attic'},
-  {completed: false,
-    id: 1515766203884,
-    text: 'GTA San Andreas'},
-  {completed: false,
-    id: 1515766203984,
-    text: 'Shaved the cat'},
-  {completed: false,
-    id: 1515766204184,
-    text: 'Jeremy Kyle again'},
-]
 
 const postProcrastinationItem = (state, action) => {
   switch (action.type) {
@@ -40,7 +21,7 @@ const postProcrastinationItem = (state, action) => {
   }
 }
 
-const postProcrastination = (state = startingState, action) => {
+const postProcrastination = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO_POST_PROCRASTINATION':
       return [
@@ -56,6 +37,4 @@ const postProcrastination = (state = startingState, action) => {
   }
 }
 
-const undoableTodos = undoable(postProcrastination, { filter: includeAction(['ADD_TODO_POST_PROCRASTINATION', 'TOGGLE_TODO']) })
-
-export default undoableTodos
+export default postProcrastination

@@ -1,13 +1,3 @@
-import undoable, { includeAction } from 'redux-undo'
-
-var startingState = [
-  {completed: false,
-    id: 1515766202684,
-    text: 'Buy cleaning products'},
-  {completed: false,
-    id: 1515766202784,
-    text: 'Watch house decay.'},
-]
 
 const laterbaseItem = (state, action) => {
   switch (action.type) {
@@ -31,7 +21,7 @@ const laterbaseItem = (state, action) => {
   }
 }
 
-const theLaterbase = (state = startingState, action) => {
+const theLaterbase = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO_THE_LATERBASE':
       return [
@@ -47,6 +37,4 @@ const theLaterbase = (state = startingState, action) => {
   }
 }
 
-const undoableTodos = undoable(theLaterbase, { filter: includeAction(['ADD_TODO_THE_LATERBASE', 'TOGGLE_TODO']) })
-
-export default undoableTodos
+export default theLaterbase

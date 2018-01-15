@@ -2,11 +2,11 @@ import firebaseInitialised from '../fbConfig'
 
 let nextTodoId = () => Date.now();
 
-export const addTodo = (text, choosenList) => {
+export const addTodo = ( choosenList, text, theId ) => {
 	return {
 	  type: choosenList,
-	  id: nextTodoId(),
-	  text
+	  text,
+	  id: (!theId) ? nextTodoId() : theId
 	}
 }
 
@@ -45,11 +45,34 @@ export const fetchPostsIfNeeded = subreddit => (dispatch, getState) => {
 }
 */
 
-export const fetchPostsIfNeeded = requestedDate => (dispatch, getState) => {
-	firebaseInitialised.database().ref('/1515848814142rfe/days/'+requestedDate).once('value').then(function(snapshot) {
-	  console.log('====== '+JSON.stringify(getState()))
-	});
-	if(1 === 1){
-		dispatch(addTodo('YAY', 'ADD_TODO'))
+const fillAllLists = theSnapshot => dispatch => {
+	let theLists = {
+		todos: 'ADD_TODO',
+		theLaterbase: 'ADD_TODO_THE_LATERBASE',
+		postProcrastination: 'ADD_TODO_POST_PROCRASTINATION'
+	}
+
+	for(var stateName in theLists){
+		for(var itemId in theSnapshot[stateName]){
+			dispatch(addTodo( theLists[stateName], theSnapshot[stateName][itemId].text, itemId))
+		}
+	}
+}
+
+const shouldFetchPosts = (state) => {
+	if(
+		state.todos.length === 0 &&
+		state.theLaterbase.length === 0 &&
+		state.postProcrastination.length === 0){
+		return true;
+	}
+	return false;
+}
+
+export const fetchPostsIfNeeded = theParam => (dispatch, getState) => {
+	if( shouldFetchPosts(getState()) ){
+		firebaseInitialised.database().ref('/1515848814142rfe/days/'+theParam).once('value').then(function(snapshot) {
+			dispatch( fillAllLists( snapshot.val() ) )
+		});
 	}
 }
