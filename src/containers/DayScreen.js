@@ -9,7 +9,7 @@ class DayScreen extends Component {
   
   componentDidMount() {
     const { fetchPostsIfNeeded } = this.props
-    fetchPostsIfNeeded('SHOW_ALL');
+    fetchPostsIfNeeded(this.props.match.params.date);
   }
 
   render(){
@@ -17,6 +17,7 @@ class DayScreen extends Component {
 
     return (
       <div className="container">
+    <h3>ID: {this.props.match.params.date}</h3>
         <div className="row">
           <div className="twelve columns">
             <h1>DataBase</h1>

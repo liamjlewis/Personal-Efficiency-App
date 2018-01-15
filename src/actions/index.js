@@ -45,7 +45,10 @@ export const fetchPostsIfNeeded = subreddit => (dispatch, getState) => {
 }
 */
 
-export const fetchPostsIfNeeded = param => (dispatch) => {
+export const fetchPostsIfNeeded = requestedDate => (dispatch, getState) => {
+	firebaseInitialised.database().ref('/1515848814142rfe/days/'+requestedDate).once('value').then(function(snapshot) {
+	  console.log('====== '+JSON.stringify(getState()))
+	});
 	if(1 === 1){
 		dispatch(addTodo('YAY', 'ADD_TODO'))
 	}
