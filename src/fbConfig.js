@@ -8,5 +8,5 @@ import * as firebase from 'firebase';
 	  storageBucket: "laterbase-eef5c.appspot.com",
 	  messagingSenderId: "897671313291"
 	};
-firebase.initializeApp(config);
-export default firebase;
+const firebaseInitialised = firebase.initializeApp(config);
+export default firebaseInitialised;

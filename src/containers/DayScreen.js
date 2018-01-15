@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { toggleTodo } from '../actions'
+import { toggleTodo, fetchPostsIfNeeded } from '../actions'
 import BulletList from '../components/BulletList'
 import UndoRedo from '../containers/UndoRedo'
 import Footer from '../components/Footer'
 
 class DayScreen extends Component {
   
+  componentDidMount() {
+    const { fetchPostsIfNeeded } = this.props
+    fetchPostsIfNeeded('SHOW_ALL');
+  }
+
   render(){
     const { todos, theLaterbase, postProcrastination, onTodoClick } = this.props;
 
@@ -87,7 +92,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onTodoClick: theId => dispatch(toggleTodo(theId))
+  onTodoClick: theId => dispatch(toggleTodo(theId)),
+  fetchPostsIfNeeded: theParam => dispatch(fetchPostsIfNeeded(theParam))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DayScreen)

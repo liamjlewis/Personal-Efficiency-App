@@ -3,7 +3,6 @@ import DayScreen from '../containers/DayScreen'
 import InfoScreen from './InfoScreen'
 
 import { HashRouter as Router, Route } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 
 const App = () => (
 	<Router>

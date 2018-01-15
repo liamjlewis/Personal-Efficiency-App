@@ -1,11 +1,11 @@
-import firebase from '../firebase'
+import firebaseInitialised from '../fbConfig'
 
-let nextTodoId = Date.now();
+let nextTodoId = () => Date.now();
 
 export const addTodo = (text, choosenList) => {
 	return {
 	  type: choosenList,
-	  id: nextTodoId++,
+	  id: nextTodoId(),
 	  text
 	}
 }
@@ -42,12 +42,11 @@ export const fetchPostsIfNeeded = subreddit => (dispatch, getState) => {
   if (shouldFetchPosts(getState(), subreddit)) {
     return dispatch(fetchPosts(subreddit))
   }
-}*/
+}
+*/
 
-export const fetchPostsIfNeeded = () => {
-  var x;
-	firebase.database().ref('/1515848814142rfe').once('value').then(function(snapshot) {
-		x = snapshot.val();
-	});
-	console.log(JSON.stringify(x));
+export const fetchPostsIfNeeded = param => (dispatch) => {
+	if(1 === 1){
+		dispatch(addTodo('YAY', 'ADD_TODO'))
+	}
 }
