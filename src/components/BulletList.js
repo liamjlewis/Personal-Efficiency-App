@@ -3,17 +3,17 @@ import PropTypes from 'prop-types'
 import Bullet from './Bullet'
 import AddBullet from '../containers/AddBullet'
 
-const BulletList = ({ todos, onTodoClick, theTitle, actionRef }) => {
+const BulletList = ({ dateRef, todos, onTodoClick, theTitle, actionRef }) => {
 
   return (
     <div>
       <h2>{theTitle}</h2>
       <ul>
-        {todos.map(todo =>
+        {todos && todos.map(todo =>
           <Bullet
             key={todo.id}
             {...todo}
-            onClick={() => onTodoClick(todo.id)}
+            onClick={() => onTodoClick(dateRef, todo.id)}
           />
         )}
       </ul>

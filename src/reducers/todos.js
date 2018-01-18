@@ -21,15 +21,20 @@ const todo = (state, action) => {
   }
 }
 
+const nestedState = (theState, action) => {
+  let todoItem = todo(undefined, action)
+  return theState.hasOwnProperty(action.dayRef) 
+  ? theState[action.dayRef].push(todoItem)
+  : theState[action.dayRef] = Array(todoItem)
+}
+
 const todos = (state = [], action) => {
+  //the data-stucture here is different than the API
   switch (action.type) {
     case 'ADD_TODO':
-      return [
-        ...state,
-        todo(undefined, action)
-      ]
+      return {...state, ...nestedState(state, action)}
     case 'TOGGLE_TODO':
-      return state.map(t =>
+      return state[action.dateRef].map(t =>
         todo(t, action)
       )
     default:

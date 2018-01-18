@@ -15,9 +15,9 @@ class HomeScreen extends Component {
     return (
       <div className="container">
     		<h1>Home Screen</h1>
-    		<p>
-    		{JSON.stringify(theState)}
-    		</p>
+    		<pre>
+    		{JSON.stringify(theState, null, '\t')}
+    		</pre>
       </div>
     )
   }

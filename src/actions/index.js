@@ -2,11 +2,12 @@ import firebaseInitialised from '../fbConfig'
 
 let nextTodoId = () => Date.now();
 
-export const addTodo = ( choosenList, text, theId ) => {
+export const addTodoLocal = ( choosenList, text, dayRef, theId ) => {
 	return {
 	  type: choosenList,
 	  text,
-	  id: (!theId) ? nextTodoId() : theId
+	  dayRef: dayRef,
+	  id: (!theId) ? nextTodoId() : theId,
 	}
 }
 
@@ -15,8 +16,9 @@ export const setVisibilityFilter = (filter) => ({
   filter
 })
 
-export const toggleTodo = (id) => ({
+export const toggleTodo = (dayRef, id) => ({
   type: 'TOGGLE_TODO',
+  dayRef,
   id
 })
 /*
@@ -45,7 +47,7 @@ export const fetchPostsIfNeeded = subreddit => (dispatch, getState) => {
 }
 */
 
-const fillAllLists = theSnapshot => dispatch => {
+const fillAllLists = (theResponse, dayRef) => dispatch => {
 	let theLists = {
 		todos: 'ADD_TODO',
 		theLaterbase: 'ADD_TODO_THE_LATERBASE',
@@ -53,8 +55,8 @@ const fillAllLists = theSnapshot => dispatch => {
 	}
 
 	for(var stateName in theLists){
-		for(var itemId in theSnapshot[stateName]){
-			dispatch(addTodo( theLists[stateName], theSnapshot[stateName][itemId].text, itemId))
+		for(var itemId in theResponse[stateName]){
+			dispatch(addTodoLocal( theLists[stateName], theResponse[stateName][itemId].text, dayRef, itemId))
 		}
 	}
 }
@@ -71,8 +73,11 @@ const shouldFetchPosts = (state) => {
 
 export const fetchPostsIfNeeded = theParam => (dispatch, getState) => {
 	if( shouldFetchPosts(getState()) ){
-		firebaseInitialised.database().ref('/1515848814142rfe/days/'+theParam).once('value').then(function(snapshot) {
-			dispatch( fillAllLists( snapshot.val() ) )
+		firebaseInitialised.database().ref('/1515848814142rfe/days/').once('value').then(function(snapshot) {
+			let response = snapshot.val();
+			for(var dayRef in response){
+				dispatch( fillAllLists( response[dayRef], dayRef)  )
+			}
 		});
 	}
 }

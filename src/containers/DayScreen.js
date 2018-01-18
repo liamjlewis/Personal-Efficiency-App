@@ -29,7 +29,8 @@ class DayScreen extends Component {
             <BulletList 
               theTitle="Todo Today" 
               onTodoClick={onTodoClick} 
-              todos={todos} 
+              todos={todos[this.props.match.params.date]} 
+              dateRef={this.props.match.params.date}
               actionRef="ADD_TODO" 
             />
           </div>
