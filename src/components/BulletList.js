@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import Bullet from './Bullet'
 import AddBullet from '../containers/AddBullet'
 
-const BulletList = ({ dateRef, todos, onTodoClick, theTitle, actionRef }) => {
-
+const BulletList = ({ dateRef, todos, onTodoClick, theTitle, listSuffix }) => {
   return (
     <div>
       <h2>{theTitle}</h2>
@@ -13,11 +12,11 @@ const BulletList = ({ dateRef, todos, onTodoClick, theTitle, actionRef }) => {
           <Bullet
             key={todo.id}
             {...todo}
-            onClick={() => onTodoClick(dateRef, todo.id)}
+            onClick={() => onTodoClick({day: dateRef, id: todo.id, listSuffix: listSuffix})}
           />
         )}
       </ul>
-      <AddBullet chosenList={actionRef} />
+      <AddBullet listSuffix={listSuffix} />
     </div>
   )
 }
@@ -32,3 +31,4 @@ BulletList.propTypes = {
 }
 
 export default BulletList
+/* NOTE: this should be a container element so as to reduce the number of props being handed down to it, could be just theTitle and listSuffix */

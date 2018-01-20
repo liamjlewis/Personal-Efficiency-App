@@ -2,9 +2,9 @@ import firebaseInitialised from '../fbConfig'
 
 let nextTodoId = () => Date.now();
 
-export const addTodoLocal = ( choosenList, text, dayRef, theId ) => {
+export const addTodoDOM = ( listSuffix, text, dayRef, theId ) => {
 	return {
-	  type: choosenList,
+	  type: 'ADD_TODO'+listSuffix,
 	  text,
 	  dayRef: dayRef,
 	  id: (!theId) ? nextTodoId() : theId,
@@ -16,67 +16,57 @@ export const setVisibilityFilter = (filter) => ({
   filter
 })
 
-export const toggleTodo = (dayRef, id) => ({
-  type: 'TOGGLE_TODO',
-  dayRef,
-  id
-})
-/*
-const fetchPosts = subreddit => dispatch => {
-  dispatch(requestPosts(subreddit))
-  return fetch(`https://www.reddit.com/r/${subreddit}.json`)
-    .then(response => response.json())
-    .then(json => dispatch(receivePosts(subreddit, json)))
+export const toggleTodo = (params) => {
+	let {day, id, listSuffix} = params
+	return {
+	  type: 'TOGGLE_TODO'+listSuffix,
+	  day,
+	  id }
 }
-
-const shouldFetchPosts = (state, subreddit) => {
-  const posts = state.postsBySubreddit[subreddit]
-  if (!posts) {
-    return true
-  }
-  if (posts.isFetching) {
-    return false
-  }
-  return posts.didInvalidate
-}
-
-export const fetchPostsIfNeeded = subreddit => (dispatch, getState) => {
-  if (shouldFetchPosts(getState(), subreddit)) {
-    return dispatch(fetchPosts(subreddit))
-  }
-}
-*/
 
 const fillAllLists = (theResponse, dayRef) => dispatch => {
 	let theLists = {
-		todos: 'ADD_TODO',
-		theLaterbase: 'ADD_TODO_THE_LATERBASE',
-		postProcrastination: 'ADD_TODO_POST_PROCRASTINATION'
+		todos: '',
+		theLaterbase: '_THE_LATERBASE',
+		postProcrastination: '_POST_PROCRASTINATION'
 	}
 
-	for(var stateName in theLists){
-		for(var itemId in theResponse[stateName]){
-			dispatch(addTodoLocal( theLists[stateName], theResponse[stateName][itemId].text, dayRef, itemId))
+	for(var key in theLists){
+		for(var itemId in theResponse[key]){
+			dispatch(addTodoDOM( theLists[key], theResponse[key][itemId].text, dayRef, itemId))
 		}
 	}
 }
 
 const shouldFetchPosts = (state) => {
 	if(
-		state.todos.length === 0 &&
-		state.theLaterbase.length === 0 &&
-		state.postProcrastination.length === 0){
-		return true;
-	}
+		Object.keys(state.todos).length === 0 &&
+		Object.keys(state.theLaterbase).length === 0 &&
+		Object.keys(state.postProcrastination).length === 0 &&
+		state.serverActivity.getting !== 'true'){
+			return true;
+		}
 	return false;
 }
 
+export const gettingItems = (val) => ({
+  type: 'GETTING',
+  val
+})
+
 export const fetchPostsIfNeeded = theParam => (dispatch, getState) => {
 	if( shouldFetchPosts(getState()) ){
+		dispatch(gettingItems('true'));
 		firebaseInitialised.database().ref('/1515848814142rfe/days/').once('value').then(function(snapshot) {
-			let response = snapshot.val();
-			for(var dayRef in response){
-				dispatch( fillAllLists( response[dayRef], dayRef)  )
+			if(snapshot.val() !== null){
+				dispatch(gettingItems('false'));
+				let response = snapshot.val();
+				for(var dayRef in response){
+					dispatch( fillAllLists( response[dayRef], dayRef)  )
+				}
+			}else{
+				//this will have to do as error processing until I figure out what's up with firebase .catch()
+				dispatch(gettingItems('noresponse'));
 			}
 		});
 	}

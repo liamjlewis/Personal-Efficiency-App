@@ -21,22 +21,26 @@ const todo = (state, action) => {
   }
 }
 
-const nestedState = (theState, action) => {
+const nestedState = (theState, action) => {//NOTE: this is reapeated in several reducers, make a utilities scripts import
   let todoItem = todo(undefined, action)
+  let theStateNewProp = Object.assign({}, theState)
+  theStateNewProp[action.dayRef] = Array(todoItem)
   return theState.hasOwnProperty(action.dayRef) 
   ? theState[action.dayRef].push(todoItem)
-  : theState[action.dayRef] = Array(todoItem)
+  : theStateNewProp
 }
 
-const todos = (state = [], action) => {
-  //the data-stucture here is different than the API
+const todos = (state = {}, action) => {
+  //NOTE: the data-stucture here is different than the API
   switch (action.type) {
     case 'ADD_TODO':
       return {...state, ...nestedState(state, action)}
     case 'TOGGLE_TODO':
-      return state[action.dateRef].map(t =>
+      let updatedDay = {}//NOTE: see if this stuff can go in todo() :D Actually, isn't this doing almost the same as nestedState() ?
+      updatedDay[action.day] = state[action.day].map(t => 
         todo(t, action)
       )
+      return Object.assign({}, state, updatedDay)
     default:
       return state
   }

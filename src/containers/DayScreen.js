@@ -16,7 +16,6 @@ class DayScreen extends Component {
 
     return (
       <div className="container">
-    <h3>ID: {this.props.match.params.date}</h3>
         <div className="row">
           <div className="twelve columns">
             <h1>DataBase</h1>
@@ -31,15 +30,16 @@ class DayScreen extends Component {
               onTodoClick={onTodoClick} 
               todos={todos[this.props.match.params.date]} 
               dateRef={this.props.match.params.date}
-              actionRef="ADD_TODO" 
+              listSuffix="" 
             />
           </div>
           <div className="six columns columns bulletlist laterbase">
               <BulletList 
                 theTitle="The LaterBase o" 
                 onTodoClick={onTodoClick} 
-                todos={theLaterbase} 
-                actionRef="ADD_TODO_THE_LATERBASE" 
+                todos={theLaterbase[this.props.match.params.date]} 
+                dateRef={this.props.match.params.date}
+                listSuffix="_THE_LATERBASE" 
               />
           </div>
         </div>
@@ -48,8 +48,9 @@ class DayScreen extends Component {
             <BulletList 
               theTitle="Sin Bin" 
               onTodoClick={onTodoClick} 
-              todos={postProcrastination} 
-              actionRef="ADD_TODO_POST_PROCRASTINATION" 
+              todos={postProcrastination[this.props.match.params.date]} 
+              dateRef={this.props.match.params.date}
+              listSuffix="_POST_PROCRASTINATION" 
             />
           </div>
           <div className="six columns bulletlist">
