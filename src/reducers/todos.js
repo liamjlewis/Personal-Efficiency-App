@@ -36,7 +36,7 @@ const todos = (state = {}, action) => {
     case 'ADD_TODO':
       return {...state, ...nestedState(state, action)}
     case 'TOGGLE_TODO':
-      let updatedDay = {}//NOTE: see if this stuff can go in todo() :D Actually, isn't this doing almost the same as nestedState() ?
+      let updatedDay = {}//NOTE: see if this stuff can go in todo() Actually, isn't this doing almost the same as nestedState() ?
       updatedDay[action.day] = state[action.day].map(t => 
         todo(t, action)
       )

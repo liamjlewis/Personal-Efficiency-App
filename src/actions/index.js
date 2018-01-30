@@ -6,12 +6,13 @@ import firebaseInitialised from '../fbConfig'
 
 	let nextTodoId = () => Date.now();
 
-	export const addTodoDOM = ( listSuffix, text, dayRef, theId ) => {
+	export const addTodoDOM = ( params ) => {
+		let {day, id, listSuffix, text} = params //NOTE: these should be function arguements
 		return {
 		  type: 'ADD_TODO'+listSuffix,
 		  text,
-		  dayRef: dayRef,
-		  id: (!theId) ? nextTodoId() : theId,
+		  dayRef: day,
+		  id: (!id) ? nextTodoId() : id,
 		}
 	}
 
@@ -46,7 +47,12 @@ import firebaseInitialised from '../fbConfig'
 		for(var dayRef in theResponse){
 			for(var listRef in theLists){
 				for(var itemId in theResponse[dayRef][listRef]){
-					dispatch(addTodoDOM( theLists[listRef], theResponse[dayRef][listRef][itemId].text, dayRef, itemId))
+					dispatch(addTodoDOM({
+						day: dayRef, 
+						id: itemId, 
+						listSuffix: theLists[listRef],
+						text: theResponse[dayRef][listRef][itemId].text 
+					}))
 				}
 			}
 		} //NOTE: is there a nicer way to do this?
@@ -100,8 +106,10 @@ import firebaseInitialised from '../fbConfig'
 						setTimeout( () => (
 							dispatch( fetchPostsIfNeeded('/1515848814142rfe/days/') )
 						), 1000)
+						break
 			    case 'getting':
 						dispatch( gettingInvalidated( false ) )
+						break
 				}
 
 				theState.serverActivity[a].queue.map( i => {
