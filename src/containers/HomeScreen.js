@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchPostsIfNeeded } from '../actions'
+import { fetchPostsIfNeeded, manageQueues } from '../actions'
 
 class HomeScreen extends Component {
-  
-  componentDidMount() {
-    const { fetchPostsIfNeeded } = this.props
-    fetchPostsIfNeeded('2018-01-13');
-  }
 
   render(){
     const {theState} = this.props;
@@ -15,6 +10,8 @@ class HomeScreen extends Component {
     return (
       <div className="container">
     		<h1>Home Screen</h1>
+    		<p>blurb</p>
+    		<p>And remember... this will only work if you do it every day. Let the green calender days and upwards graphs be your inspiration!</p>
     		<pre>
     		{JSON.stringify(theState, null, '\t')}
     		</pre>
@@ -30,7 +27,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchPostsIfNeeded: theParam => dispatch(fetchPostsIfNeeded(theParam))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

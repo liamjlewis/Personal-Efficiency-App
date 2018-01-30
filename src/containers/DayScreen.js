@@ -5,11 +5,6 @@ import BulletList from '../components/BulletList'
 import Footer from '../components/Footer'
 
 class DayScreen extends Component {
-  
-  componentDidMount() {
-    const { fetchPostsIfNeeded } = this.props
-    fetchPostsIfNeeded(this.props.match.params.date);
-  }
 
   render(){
     const { todos, theLaterbase, postProcrastination, onTodoClick } = this.props;

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { addTodoDOM } from '../actions'
 
-let AddTodo = ({ dispatch, chosenList }) => {
+let AddTodo = ({ dispatch, listSuffix }) => {
   let input
 
   return (
@@ -12,7 +12,7 @@ let AddTodo = ({ dispatch, chosenList }) => {
         if (!input.value.trim()) {
           return
         }
-        dispatch(addTodoDOM(chosenList, input.value ))
+        dispatch(addTodoDOM(listSuffix, input.value ))
         input.value = ''
       }}>
         <input ref={node => {
