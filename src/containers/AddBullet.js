@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addTodoDOM } from '../actions'
+import { addTodoHandler } from '../actions'
 
 let AddTodo = ({ dispatch, todoParams }) => {
   let input
@@ -12,7 +12,7 @@ let AddTodo = ({ dispatch, todoParams }) => {
         if (!input.value.trim()) {
           return
         }
-        dispatch(addTodoDOM( {...todoParams, text: input.value} ))
+        dispatch(addTodoHandler( {...todoParams, text: input.value} ))
         input.value = ''
       }}>
         <input ref={node => {

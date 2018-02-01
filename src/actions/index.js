@@ -1,4 +1,5 @@
 import firebaseInitialised from '../fbConfig'
+import { suffixTolistName } from '../utilities'
 
 /* TO DO MANAGEMENT ••••••••••••••••••••••••••••••••••••••••••••• */
 
@@ -6,14 +7,30 @@ import firebaseInitialised from '../fbConfig'
 
 	let nextTodoId = () => Date.now();
 
+	export const addTodoHandler = ( params ) => dispatch => {
+		params.id = (!params.id) ? nextTodoId() : params.id
+		dispatch(addTodoDOM(params))
+		addTodoAPI(params)
+	}
+
 	export const addTodoDOM = ( params ) => {
 		let {day, id, listSuffix, text} = params //NOTE: these should be function arguements
 		return {
 		  type: 'ADD_TODO'+listSuffix,
 		  text,
 		  dayRef: day,
-		  id: (!id) ? nextTodoId() : id,
+		  id: id,
 		}
+	}
+
+	const addTodoAPI = ( params ) => {
+		let {day, id, listSuffix, text} = params //NOTE: these should be function arguements
+		let listName = suffixTolistName(listSuffix)
+
+		let obj = {}
+		obj[id] = { "completed": false, "text": text }
+
+		firebaseInitialised.database().ref('/1515848814142rfe/days/'+day+'/'+listName+'/').update( obj )
 	}
 
 	/*export const addTodoAPI = theParam => (dispatch, getState) => {
@@ -64,19 +81,19 @@ import firebaseInitialised from '../fbConfig'
 			Object.keys(state.todos).length === 0 &&
 			Object.keys(state.theLaterbase).length === 0 &&
 			Object.keys(state.postProcrastination).length === 0 &&
-			state.serverActivity.getting !== 'true'){
+			!state.serverActivity.initGet.isQuerying){
 				return true;
 			}
 		return false;
 	}
 
 	export const fetchPostsIfNeeded = theParam => (dispatch, getState) => {
-
-		if( ArePostsEmpty(getState()) ){
+		let theState = getState()
+		if( ArePostsEmpty(theState) ){
 			dispatch(initGettingItems(true));
-			let endpoint = (theParam) ? theParam : '/15158488141INVALID42rfe/days/'
+			let endpoint = (theParam) ? theParam : '/1515848814142rfe/days/'
 			firebaseInitialised.database().ref(endpoint).once('value').then(function(snapshot) {
-				if(snapshot.val() !== null){ //NOTE: firebase .catch()
+				if(snapshot.val() !== null){ //NOTE: for some reason this initially comes back null before getting the data on the second try
 					dispatch( initGettingItems(false) )
 					dispatch( initInvalidated( false ) )
 					dispatch( fillAllLists(snapshot.val()) )
@@ -96,7 +113,7 @@ import firebaseInitialised from '../fbConfig'
 		let activityTypes = ['initGet', 'getting', 'posting', 'deleting', 'updating']
 
 		activityTypes.map( a => {
-			if(!theState.serverActivity[a].isQuerying && theState.serverActivity[a].queue.length !== 0){
+			if(!theState.serverActivity[a].isQuerying && theState.serverActivity[a].queue.length >= 1){
 				console.log('THERE IS A QUEUE FOR '+a+' '+theState.serverActivity[a].queue[0])
 
 				switch (a) {//this needs to be below
@@ -104,7 +121,7 @@ import firebaseInitialised from '../fbConfig'
 						dispatch( gettingInvalidated( false ) )
 						dispatch( initClearQueue() )
 						setTimeout( () => (
-							dispatch( fetchPostsIfNeeded('/1515848814142rfe/days/') )
+							dispatch( fetchPostsIfNeeded() )
 						), 1000)
 						break
 			    case 'getting':

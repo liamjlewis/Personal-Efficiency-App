@@ -9,3 +9,25 @@ export function removeFromArray(array, index) {
     newArray.splice(index, 1);
     return newArray;
 }
+
+export function suffixTolistName(suffix) {
+	switch (suffix){
+		case "":
+			return "todos"
+		case "_THE_LATERBASE":
+			return "theLaterbase"
+		case "_POST_PROCRASTINATION":
+			return "postProcrastination"
+	}
+}
+
+export function listNameToSuffix(listName) {
+	switch(listName) {
+    case "todos":
+      return ""
+    case "theLaterbase":
+      return "_THE_LATERBASE"
+    case "postProcrastination":
+      return "_POST_PROCRASTINATION"
+  }
+}

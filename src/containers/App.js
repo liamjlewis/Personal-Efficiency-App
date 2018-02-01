@@ -19,12 +19,20 @@ class App extends Component {
   }
 
   render(){
-  	const {theState} = this.props;
+  	const {serverActivity} = this.props;
 
 	  return (
 
 			<Router>
 				<div>
+          {(serverActivity.initGet.isQuerying || serverActivity.initGet.didInvalidate) &&
+            <div className="loader-overlay">
+              <div className="loader-house">
+                <div className="loader"></div>
+                <p>Loading lists...</p>
+              </div>
+            </div>
+          }
 					<Route path="/" exact={true} component={HomeScreen} />
 					<Route path="/day/:date" component={DayScreen} />
 					<Route path="/info" exact={true} render={InfoScreen} />
@@ -37,7 +45,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-  	theState: state
+  	serverActivity: state.serverActivity
   }
 }
 

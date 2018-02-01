@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Bullet from '../components/Bullet'
 import AddBullet from './AddBullet'
 import { withRouter } from 'react-router'
+import { listNameToSuffix } from '../utilities'
 
 class BulletList extends Component {
 
@@ -13,17 +14,7 @@ class BulletList extends Component {
     const today = this.props.match.params.date
     let listSuffix = ""
 
-    switch(listName) {
-      case "todos":
-        listSuffix = ""
-        break
-      case "theLaterbase":
-        listSuffix = "_THE_LATERBASE"
-        break
-      case "postProcrastination":
-        listSuffix = "_POST_PROCRASTINATION"
-        break
-    }
+    listSuffix = listNameToSuffix(listName)
 
     return (
       <div>
