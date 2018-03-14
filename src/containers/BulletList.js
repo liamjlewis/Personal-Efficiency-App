@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { toggleTodo } from '../actions'
+import { toggleTodoHandler, deleteTodoHandler } from '../actions'
 import PropTypes from 'prop-types'
 import Bullet from '../components/Bullet'
 import AddBullet from './AddBullet'
@@ -24,7 +24,8 @@ class BulletList extends Component {
             <Bullet
               key={todo.id}
               {...todo}
-              onClick={() => onTodoClick({day: today, id: todo.id, listSuffix: listSuffix})}
+              completedToggle={() => onTodoClick({day: today, id: todo.id, listSuffix: listSuffix, newVal: !todo.completed})}
+              deleteTodo={() => onTodoClick({day: today, id: todo.id, listSuffix: listSuffix})}
             />
           )}
         </ul>
@@ -63,7 +64,8 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onTodoClick: todoParams => dispatch(toggleTodo(todoParams)),
+  onTodoClick: todoParams => dispatch(toggleTodoHandler(todoParams)),
+  deleteTodo: deleteTodoParams => dispatch(deleteTodoHandler(deleteTodoParams)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)( withRouter(BulletList) )

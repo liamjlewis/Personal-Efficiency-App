@@ -5,7 +5,7 @@ const laterbaseItem = (state, action) => {
       return {
         id: action.id,
         text: action.text,
-        completed: false
+        completed: action.completed
       }
     case 'TOGGLE_TODO_THE_LATERBASE':
       if (state.id !== action.id) {

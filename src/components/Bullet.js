@@ -1,14 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Bullet = ({ onClick, completed, text }) => (
+const Bullet = ({ onClick, completed, text, completedToggle, deleteTodo }) => (
   <li
     onClick={onClick}
-    style={{
-      textDecoration: completed ? 'line-through' : 'none'
-    }}
+    className={
+      completed ? 'completed-todo' : ''
+    }
   >
+    <input className="checkbox-todo" type="checkbox" onClick={ () => completedToggle() } />
     {text}
+    <div className="delete-todo" onClick={ () => deleteTodo() }>&#10005;</div>
   </li>
 )
 

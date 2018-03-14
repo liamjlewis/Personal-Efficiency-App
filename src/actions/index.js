@@ -3,7 +3,7 @@ import { suffixTolistName } from '../utilities'
 
 /* TO DO MANAGEMENT ••••••••••••••••••••••••••••••••••••••••••••• */
 
-	/* LOCAL••••••••••••••••••••••••••••••••••••••••••••• */
+	/* ADDING A TODO••••••••••••••••••••••••••••••••••••••••••••• */
 
 	let nextTodoId = () => Date.now();
 
@@ -14,12 +14,13 @@ import { suffixTolistName } from '../utilities'
 	}
 
 	export const addTodoDOM = ( params ) => {
-		let {day, id, listSuffix, text} = params //NOTE: these should be function arguements
+		let {day, id, listSuffix, text, completed} = params //NOTE: these should be function arguements
 		return {
 		  type: 'ADD_TODO'+listSuffix,
 		  text,
 		  dayRef: day,
 		  id: id,
+		  completed: completed
 		}
 	}
 
@@ -33,10 +34,11 @@ import { suffixTolistName } from '../utilities'
 		firebaseInitialised.database().ref('/1515848814142rfe/days/'+day+'/'+listName+'/').update( obj )
 	}
 
-	/*export const addTodoAPI = theParam => (dispatch, getState) => {
-		dispatch(gettingItems('true'));
-		firebaseInitialised.database().ref('/1515848814142rfe/days/').once('value').then(function(snapshot) {
-	}*/
+	/* TOGGLING ••••••••••••••••••••••••••••••••••••••••••••• */
+	export const toggleTodoHandler = ( params ) => dispatch => {
+		dispatch(toggleTodo(params))
+		toggleTodoAPI(params)
+	}
 
 	export const toggleTodo = (params) => {
 		let {day, id, listSuffix} = params
@@ -45,6 +47,30 @@ import { suffixTolistName } from '../utilities'
 		  day,
 		  id }
 	}
+
+	const toggleTodoAPI = ( params ) => {
+		let {day, id, listSuffix, newVal} = params //NOTE: these should be function arguements
+		let listName = suffixTolistName(listSuffix)
+		firebaseInitialised.database().ref("/1515848814142rfe/days/"+day+"/"+listName+"/"+id+"/completed").set( newVal )
+	}
+
+	/* DELETING ••••••••••••••••••••••••••••••••••••••••••••• */
+	export const deleteTodoHandler = ( params ) => dispatch => {
+		dispatch(deleteTodo(params))
+		deleteTodoAPI(params)
+	}
+
+	export const deleteTodo = (params) => {
+		
+		console.log('delete todo')
+	}
+
+	const deleteTodoAPI = ( params ) => {
+		
+		console.log('deleteTodoAPI')
+	}
+
+	/* MISC     ••••••••••••••••••••••••••••••••••••••••••••• */
 
 	export const setVisibilityFilter = (filter) => ({
 	  type: 'SET_VISIBILITY_FILTER',
@@ -68,7 +94,8 @@ import { suffixTolistName } from '../utilities'
 						day: dayRef, 
 						id: itemId, 
 						listSuffix: theLists[listRef],
-						text: theResponse[dayRef][listRef][itemId].text 
+						text: theResponse[dayRef][listRef][itemId].text,
+						completed: theResponse[dayRef][listRef][itemId].completed 
 					}))
 				}
 			}
